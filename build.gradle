@@ -1,0 +1,27 @@
+plugins {
+    id 'java'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    maven {
+        url 'https://repo.grakn.ai/repository/maven/'
+    }
+    maven {
+        url 'https://repo.grakn.ai/repository/maven-snapshot/'
+    }
+}
+
+dependencies {
+    implementation group: 'io.grakn.client', name: 'grakn-client', version: "2.0.0-alpha-8"
+    compile group: 'io.dropwizard.metrics', name: 'metrics-core', version: '4.1.17'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:1.7.0'
+}
+
+test {
+    useJUnitPlatform()
+}
