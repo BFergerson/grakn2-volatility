@@ -52,7 +52,7 @@ public class TestMatchVolatility {
                 try (var readTx = dataSession.transaction(GraknClient.Transaction.Type.READ)) {
                     var results = readTx.query().match((GraqlMatch.Aggregate) parseQuery(
                             "match\n" +
-                                    //"$function isa SourceArtifact;\n" +
+                                    "$function isa SourceArtifact;\n" +
                                     "(is_parent: $function, is_child: $functionName);" +
                                     "($functionName) isa IDENTIFIER;" +
                                     "$functionName has token \"main\";\n" +
