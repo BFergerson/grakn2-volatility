@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import static graql.lang.Graql.parseQuery;
@@ -17,15 +16,13 @@ import static graql.lang.Graql.parseQuery;
 public class TestMatchVolatility {
 
     static MetricRegistry registry = new MetricRegistry();
+    static ConsoleReporter reporter = ConsoleReporter.forRegistry(registry).build();
 
     @Test
     public void emptyDbTesting() throws IOException {
         LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
         context.reset();
 
-        ConsoleReporter reporter = ConsoleReporter.forRegistry(registry).build();
-        reporter.start(1, TimeUnit.MINUTES);
-        reporter.report();
 
         //connect to grakn
         var graknHost = "localhost";
@@ -63,30 +60,13 @@ public class TestMatchVolatility {
                 }
             }
 
-//            try (var t = registry.timer("readData-2").time()) {
-//                dataSession = graknClient.session(graknKeyspace, GraknClient.Session.Type.DATA);
-//                try (var readTx = dataSession.transaction(GraknClient.Transaction.Type.READ)) {
-//                    var results = readTx.query().match((GraqlMatch.Aggregate) parseQuery(
-//                            "match\n" +
-//                                    "$function isa SourceArtifact;\n" +
-//                                    "($function) isa DECLARATION;\n" +
-//                                    "($function) isa FUNCTION;\n" +
-//                                    "not { ($function) isa ARGUMENT; };\n" +
-//                                    "not { ($function) isa RETURN; };\n" +
-//                                    "not { ($function) isa INCOMPLETE; };\n" +
-//                                    "not { ($function) isa BODY; };\n" +
-//                                    "{ ($function) isa IDENTIFIER; $function has token \"main\"; } or { (is_parent: $function, is_child: $functionName); ($functionName) isa IDENTIFIER; $functionName has token \"main\"; };\n" +
-//                                    "get $function; count;")).get();
-//                    System.out.println("Results: " + results);
-//                }
-//            }
-
             //clean up
             dataSession.close();
             graknClient.close();
 
             reporter.report();
-            reporter.close();
         }
+
+        reporter.close();
     }
 }
