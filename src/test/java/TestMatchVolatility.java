@@ -14,6 +14,7 @@ import static graql.lang.Graql.parseQuery;
 
 public class TestMatchVolatility {
 
+    static int BATCH_SIZE = 10;
     static MetricRegistry registry = new MetricRegistry();
     static ConsoleReporter reporter = ConsoleReporter.forRegistry(registry).build();
 
@@ -27,7 +28,7 @@ public class TestMatchVolatility {
         var graknKeyspace = "grakn";
 
         //first batch
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < BATCH_SIZE; i++) {
             //connect to grakn
             GraknClient graknClient;
             try (var t = registry.timer("setup").time()) {
@@ -70,7 +71,7 @@ public class TestMatchVolatility {
         }
 
         //second batch
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < BATCH_SIZE; i++) {
             //connect to grakn
             GraknClient graknClient;
             try (var t = registry.timer("setup").time()) {
