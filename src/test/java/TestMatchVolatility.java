@@ -99,9 +99,13 @@ public class TestMatchVolatility {
                     var results = readTx.query().match((GraqlMatch.Aggregate) parseQuery(
                             "match\n" +
                                     "$function isa SourceArtifact;\n" +
-                                    "(is_parent: $function, is_child: $functionName);" +
-                                    "($functionName) isa IDENTIFIER;" +
-                                    "$functionName has token \"main\";\n" +
+                                    "($function) isa DECLARATION;\n" +
+                                    "($function) isa FUNCTION;\n" +
+                                    "not { ($function) isa ARGUMENT; };\n" +
+                                    "not { ($function) isa RETURN; };\n" +
+                                    "not { ($function) isa INCOMPLETE; };\n" +
+                                    "not { ($function) isa BODY; };\n" +
+                                    "{ ($function) isa IDENTIFIER; $function has token \"main\"; } or { (is_parent: $function, is_child: $functionName); ($functionName) isa IDENTIFIER; $functionName has token \"main\"; };\n" +
                                     "get $function; count;")).get();
                     System.out.println("Results: " + results);
                 }
