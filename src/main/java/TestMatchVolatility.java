@@ -41,7 +41,7 @@ public class TestMatchVolatility {
             try (var t = registry.timer("saveSchema").time()) {
                 var schemaSession = graknClient.session(graknKeyspace, GraknClient.Session.Type.SCHEMA);
                 var tx = schemaSession.transaction(GraknClient.Transaction.Type.WRITE);
-                tx.query().define(parseQuery(Resources.toString(Resources.getResource("schema_smaller.gql"), StandardCharsets.UTF_8)));
+                tx.query().define(parseQuery(Resources.toString(Resources.getResource("schema_bigger.gql"), StandardCharsets.UTF_8)));
                 tx.commit();
                 tx.close();
                 schemaSession.close();
@@ -63,6 +63,9 @@ public class TestMatchVolatility {
             //clean up
             dataSession.close();
             graknClient.close();
+
+            reporter.report();
+            reporter.close();
         }
     }
 }
