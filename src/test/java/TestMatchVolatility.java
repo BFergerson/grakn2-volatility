@@ -15,7 +15,7 @@ import static graql.lang.Graql.parseQuery;
 
 public class TestMatchVolatility {
 
-    static int BATCH_SIZE = 1; //5
+    static int BATCH_SIZE = 1; //6
     static MetricRegistry registry = new MetricRegistry();
     static ConsoleReporter reporter = ConsoleReporter.forRegistry(registry).convertDurationsTo(TimeUnit.SECONDS).build();
 
