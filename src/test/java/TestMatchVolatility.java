@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.concurrent.TimeUnit;
 
 import static graql.lang.Graql.parseQuery;
 
@@ -16,7 +17,7 @@ public class TestMatchVolatility {
 
     static int BATCH_SIZE = 5;
     static MetricRegistry registry = new MetricRegistry();
-    static ConsoleReporter reporter = ConsoleReporter.forRegistry(registry).build();
+    static ConsoleReporter reporter = ConsoleReporter.forRegistry(registry).convertDurationsTo(TimeUnit.SECONDS).build();
 
     @Test
     public void emptyDbTesting() throws IOException {
